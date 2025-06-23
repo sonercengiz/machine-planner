@@ -15,5 +15,9 @@ services:
       - '80:8000'
     depends_on:
       - db
+    volumes:
+      # Host’ta kalıcı olarak saklanacak GLB dosyaları:
+      # → Container içinde /models dizinine bind‐mount ediyoruz
+      - /var/lib/machine_planner_models:/models
 volumes:
   db_data_prod:

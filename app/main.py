@@ -1,3 +1,4 @@
+import os
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fastapi import FastAPI
@@ -26,6 +27,8 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    os.makedirs(settings.MODEL_UPLOAD_DIR, exist_ok=True)
 
     app.mount(
         "/files",

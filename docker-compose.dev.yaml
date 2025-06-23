@@ -1,23 +1,26 @@
 version: '3.9'
+
 services:
   db:
     image: postgres:16
     env_file:
-      - .env.dev
+      - .env.prod
     volumes:
-      - db_data_dev:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
-  web:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
     build: .
-    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     volumes:
       - .:/code
     env_file:
-      - .env.dev
-    ports:
-      - '8000:8000'
+      - .env.prod
+    expose:
+      - "8000"
     depends_on:
       - db
+    restart: always
+
 volumes:
-  db_data_dev:
+  db_data:
